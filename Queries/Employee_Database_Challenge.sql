@@ -44,3 +44,29 @@ ON (e.emp_no = ti.emp_no)
 WHERE (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 AND (de.to_date = '9999-01-01')
 ORDER BY e.emp_no;
+
+-- ADDITIONAL QUERIES
+SELECT e.emp_no,
+	de.dept_no,
+	d.dept_name
+INTO emp_retiring_dept
+FROM employees AS e
+LEFT JOIN dept_empl as de
+ON (e.emp_no = de.emp_no)
+LEFT JOIN departments AS d
+ON (de.dept_no = d.dept_no)
+WHERE (e.birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+ORDER BY e.emp_no;
+
+SELECT COUNT(erd.emp_no) emp_no,
+	dept_name
+INTO retiring_dept
+FROM emp_retiring_dept AS erd
+GROUP BY dept_name
+ORDER BY COUNT(emp_no) DESC;
+
+SELECT COUNT(me.emp_no),
+	title
+FROM mentorship_eligibility AS me
+GROUP BY title
+ORDER BY COUNT(emp_no) DESC;
